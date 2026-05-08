@@ -229,21 +229,20 @@ html:has(.aar3) { scroll-behavior: smooth; }
 .aar3-book-card-row-val a { color: #fff; text-decoration: none; }
 .aar3-book-card-row-val a:hover { color: var(--aar3-accent-2); }
 
-/* Booking form panel — appended below book-inner, page-scoped */
-.aar3-form-wrap { max-width: 720px; margin: 3rem auto 0; padding: 0 1.5rem; position: relative; z-index: 1; }
-.aar3-form-shell { background: #fff; border-radius: 16px; padding: 2rem 1.75rem 1.25rem; box-shadow: 0 40px 90px -25px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.04); position: relative; }
+/* Booking form panel — mirrors v2 .aarp-form-shell spec exactly */
+.aar3-form-wrap { padding: 0 1.5rem; position: relative; z-index: 2; }
+.aar3-form-shell { max-width: 600px; margin: 2rem auto 0; background: #fff; border-radius: 16px; padding: 2rem 1.75rem 1.25rem; box-shadow: 0 40px 90px -25px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.04); text-align: left; position: relative; z-index: 2; }
 .aar3-form-shell::before { content: ""; position: absolute; inset: -2px; border-radius: 18px; background: linear-gradient(135deg, rgba(56,189,248,.45), rgba(14,165,233,0) 60%); z-index: -1; opacity: .55; pointer-events: none; }
 .aar3-form-head { text-align: center; margin-bottom: 1.25rem; }
-.aar3-form-eyebrow { display: inline-block; font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--aar3-accent-deep); font-weight: 700; padding: .4rem .9rem; background: rgba(14,165,233,.08); border: 1px solid rgba(14,165,233,.2); border-radius: 999px; margin-bottom: .75rem; }
-.aar3-form-head h3 { font-size: 1.4rem; color: var(--aar3-primary); margin: 0 0 .35rem; letter-spacing: -.005em; font-weight: 600; }
-.aar3-form-head p { font-size: .92rem; color: #475569; max-width: 50ch; margin: 0 auto; line-height: 1.5; }
-.aar3-form-shell iframe { width: 100% !important; min-width: 100% !important; min-height: 508px; border: 0; display: block; border-radius: 8px; margin-top: 1rem; }
-.aar3-form-fallback { text-align: center; font-size: .88rem; color: var(--aar3-accent-deep); margin: 1rem 0 0; }
-.aar3-form-fallback a { color: var(--aar3-accent-deep); text-decoration: none; font-weight: 600; }
-.aar3-form-fallback a:hover { text-decoration: underline; color: var(--aar3-accent); }
+.aar3-form-eyebrow { display: inline-block; font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: #0284c7; font-weight: 700; padding: .4rem .9rem; background: rgba(14,165,233,.08); border: 1px solid rgba(14,165,233,.2); border-radius: 999px; margin-top: 20px; margin-bottom: .75rem; }
+.aar3-form-head h3 { font-size: 1.4rem; color: #0f172a; margin: 0 0 .35rem; letter-spacing: -.005em; font-weight: 600; }
+.aar3-form-head p { font-size: .93rem; color: #475569; max-width: 50ch; margin: 0 auto 20px; line-height: 1.5; }
+.aar3-form-shell iframe { width: 100% !important; min-width: 100% !important; min-height: 508px; border: 0; display: block; border-radius: 8px; }
+.aar3-form-fallback { text-align: center; font-size: .88rem; color: #0284c7 !important; margin: 20px 0 !important; }
+.aar3-form-fallback a { color: #0284c7 !important; text-decoration: none; font-weight: 600; }
+.aar3-form-fallback a:hover { text-decoration: underline; color: #0ea5e9 !important; }
 @media (max-width: 640px) {
-  .aar3-form-wrap { padding: 0 1rem; margin-top: 2rem; }
-  .aar3-form-shell { padding: 1.5rem 1.25rem 1rem; }
+  .aar3-form-shell { padding: 20px 20px 1rem; margin-top: 1.5rem; }
   .aar3-form-head h3 { font-size: 1.2rem; }
 }
 
