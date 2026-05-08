@@ -59,7 +59,8 @@ html:has(.aar3) { scroll-behavior: smooth; }
 .aar3-trust-item strong { color: #fff; font-weight: 600; }
 
 .aar3-body { background: var(--aar3-white); padding: 5rem 0 1rem; position: relative; }
-.aar3-body-inner { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; display: grid; grid-template-columns: 220px 1fr; gap: 4rem; align-items: start; }
+.aar3-body-inner { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 4rem; align-items: start; }
+.aar3-main { min-width: 0; }
 .aar3-rail { position: sticky; top: 6rem; align-self: start; }
 .aar3-rail-label { font-size: .68rem; letter-spacing: .2em; text-transform: uppercase; color: var(--aar3-text-mute); font-weight: 700; margin: 0 0 1rem; padding-left: .85rem; }
 .aar3-rail-list { list-style: none; padding: 0; margin: 0; border-left: 1px solid var(--aar3-line); }
@@ -81,7 +82,8 @@ html:has(.aar3) { scroll-behavior: smooth; }
 .aar3-lead p:first-of-type { font-size: 1.18rem; color: var(--aar3-primary-2); }
 
 .aar3-biology { border-top: 1px solid var(--aar3-line); margin-top: 2rem; }
-.aar3-bio-row { display: grid; grid-template-columns: 70px 1fr auto; gap: 1.5rem; align-items: center; padding: 1.4rem 0; border-bottom: 1px solid var(--aar3-line); }
+.aar3-bio-row { display: grid; grid-template-columns: 70px minmax(0, 1fr) auto; gap: 1.5rem; align-items: center; padding: 1.4rem 0; border-bottom: 1px solid var(--aar3-line); }
+.aar3-bio-content { min-width: 0; }
 .aar3-bio-num { font-family: "Outfit", system-ui, sans-serif; font-size: 1.6rem; font-weight: 600; color: var(--aar3-accent-deep); letter-spacing: -.02em; line-height: 1; }
 .aar3-bio-num small { display: block; font-size: .58rem; letter-spacing: .15em; text-transform: uppercase; color: var(--aar3-text-mute); margin-top: .35rem; font-weight: 600; }
 .aar3-bio-content h4 { margin: 0 0 .35rem; font-size: 1.1rem; color: var(--aar3-primary); font-weight: 600; }
