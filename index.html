@@ -229,6 +229,24 @@ html:has(.aar3) { scroll-behavior: smooth; }
 .aar3-book-card-row-val a { color: #fff; text-decoration: none; }
 .aar3-book-card-row-val a:hover { color: var(--aar3-accent-2); }
 
+/* Booking form panel — appended below book-inner, page-scoped */
+.aar3-form-wrap { max-width: 720px; margin: 3rem auto 0; padding: 0 1.5rem; position: relative; z-index: 1; }
+.aar3-form-shell { background: #fff; border-radius: 16px; padding: 2rem 1.75rem 1.25rem; box-shadow: 0 40px 90px -25px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.04); position: relative; }
+.aar3-form-shell::before { content: ""; position: absolute; inset: -2px; border-radius: 18px; background: linear-gradient(135deg, rgba(56,189,248,.45), rgba(14,165,233,0) 60%); z-index: -1; opacity: .55; pointer-events: none; }
+.aar3-form-head { text-align: center; margin-bottom: 1.25rem; }
+.aar3-form-eyebrow { display: inline-block; font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--aar3-accent-deep); font-weight: 700; padding: .4rem .9rem; background: rgba(14,165,233,.08); border: 1px solid rgba(14,165,233,.2); border-radius: 999px; margin-bottom: .75rem; }
+.aar3-form-head h3 { font-size: 1.4rem; color: var(--aar3-primary); margin: 0 0 .35rem; letter-spacing: -.005em; font-weight: 600; }
+.aar3-form-head p { font-size: .92rem; color: #475569; max-width: 50ch; margin: 0 auto; line-height: 1.5; }
+.aar3-form-shell iframe { width: 100% !important; min-width: 100% !important; min-height: 508px; border: 0; display: block; border-radius: 8px; margin-top: 1rem; }
+.aar3-form-fallback { text-align: center; font-size: .88rem; color: var(--aar3-accent-deep); margin: 1rem 0 0; }
+.aar3-form-fallback a { color: var(--aar3-accent-deep); text-decoration: none; font-weight: 600; }
+.aar3-form-fallback a:hover { text-decoration: underline; color: var(--aar3-accent); }
+@media (max-width: 640px) {
+  .aar3-form-wrap { padding: 0 1rem; margin-top: 2rem; }
+  .aar3-form-shell { padding: 1.5rem 1.25rem 1rem; }
+  .aar3-form-head h3 { font-size: 1.2rem; }
+}
+
 @media (max-width: 980px) {
     .aar3-hero { min-height: auto; padding: 5rem 0 4rem; }
     .aar3-hero-chips { position: static; transform: none; max-width: none; grid-template-columns: repeat(3, 1fr); margin-top: 2.25rem; }
@@ -809,7 +827,32 @@ html:has(.aar3) { scroll-behavior: smooth; }
             </div>
         </div>
     </div>
+
+    <div class="aar3-form-wrap">
+        <div class="aar3-form-shell">
+            <div class="aar3-form-head">
+                <span class="aar3-form-eyebrow">Request a Consultation</span>
+                <h3>Tell us about your skin</h3>
+                <p>Submit your details and a member of our clinical team will respond to arrange a confidential consultation.</p>
+            </div>
+            <iframe
+                src="https://api.leadconnectorhq.com/widget/form/3DDV7Xv3n68I6DrDJfV9"
+                id="inline-3DDV7Xv3n68I6DrDJfV9-aar3"
+                title="Anti-ageing consultation request form"
+                data-layout="{'id':'INLINE'}"
+                data-trigger-type="alwaysShow"
+                data-activation-type="alwaysActivated"
+                data-deactivation-type="neverDeactivate"
+                data-form-name="Contact Us form - Website"
+                data-height="508"
+                data-layout-iframe-id="inline-3DDV7Xv3n68I6DrDJfV9-aar3"
+                data-form-id="3DDV7Xv3n68I6DrDJfV9"
+                loading="eager"></iframe>
+            <p class="aar3-form-fallback">Prefer to talk? <a href="tel:07506689894">Call 07506&nbsp;689894</a></p>
+        </div>
+    </div>
 </section>
+<script src="https://link.msgsndr.com/js/form_embed.js"></script>
 
 </main>
 
