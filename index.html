@@ -1,0 +1,815 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Anti-Ageing &amp; Rejuvenation V3 — Restart Medical (Preview)</title>
+<meta name="description" content="Preview of the V3 anti-ageing & rejuvenation page — interactive treatment dossier layout. Standalone HTML, no WordPress.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Lightweight host shell so the page-scoped styles below behave like inside the live theme */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body { font-family: "Outfit", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color: #334155; background: #fff; -webkit-font-smoothing: antialiased; }
+.rma-preview-bar { position: sticky; top: 0; z-index: 100; background: #0f172a; color: #fff; padding: .55rem 1.25rem; font-size: .78rem; letter-spacing: .04em; display: flex; gap: 1rem; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,.08); }
+.rma-preview-bar strong { color: #38bdf8; font-weight: 600; }
+.rma-preview-bar small { color: rgba(255,255,255,.55); font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; }
+
+/* =========================================================
+   Anti-Ageing V3 — page-scoped styles only (.aar3- namespace)
+   Brand: --primary #0f172a, --accent #0ea5e9, --accent-2 #38bdf8
+   ========================================================= */
+.aar3 { --aar3-primary:#0f172a; --aar3-primary-2:#1e293b; --aar3-accent:#0ea5e9; --aar3-accent-2:#38bdf8; --aar3-accent-deep:#0284c7; --aar3-text:#334155; --aar3-text-mute:#64748b; --aar3-line:rgba(15,23,42,.10); --aar3-line-2:rgba(15,23,42,.06); --aar3-bg:#f8fafc; --aar3-white:#fff; }
+.aar3 { color: var(--aar3-text); line-height: 1.6; background: var(--aar3-white); }
+.aar3 *, .aar3 *::before, .aar3 *::after { box-sizing: border-box; }
+.aar3 a { color: var(--aar3-accent-deep); }
+.aar3 a:hover { color: var(--aar3-accent); }
+html:has(.aar3) { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html:has(.aar3) { scroll-behavior: auto; } }
+
+/* HERO */
+.aar3-hero { position: relative; min-height: 88vh; padding: 7rem 0 5rem; color: #fff; overflow: hidden; isolation: isolate; background: #0a0f1c; }
+.aar3-hero::before { content: ""; position: absolute; inset: 0; z-index: -2; background-image: url("https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=2000&q=80"); background-size: cover; background-position: center 30%; filter: saturate(.85) brightness(.55); }
+.aar3-hero::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(135deg, rgba(10,15,28,.92) 0%, rgba(10,15,28,.62) 45%, rgba(2,132,199,.32) 100%); }
+.aar3-hero-inner { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; position: relative; z-index: 1; }
+.aar3-hero-eyebrow { display: inline-flex; align-items: center; gap: .55rem; font-size: .72rem; letter-spacing: .22em; text-transform: uppercase; color: rgba(255,255,255,.85); padding: .5rem 1rem; border: 1px solid rgba(255,255,255,.22); border-radius: 999px; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); background: rgba(255,255,255,.06); margin-bottom: 1.75rem; font-weight: 600; }
+.aar3-hero-eyebrow::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--aar3-accent-2); box-shadow: 0 0 12px var(--aar3-accent-2); }
+.aar3-hero h1 { font-size: clamp(2.5rem, 5.5vw, 4.4rem); line-height: 1.04; letter-spacing: -.018em; margin: 0 0 1.4rem; font-weight: 600; max-width: 18ch; color: #fff; }
+.aar3-hero h1 em { font-style: normal; background: linear-gradient(120deg, var(--aar3-accent-2), #7dd3fc); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.aar3-hero-deck { font-size: clamp(1.05rem, 1.5vw, 1.25rem); line-height: 1.55; color: rgba(255,255,255,.82); max-width: 52ch; margin: 0 0 2.5rem; }
+.aar3-hero-actions { display: flex; flex-wrap: wrap; gap: .9rem; align-items: center; }
+.aar3-btn { display: inline-flex; align-items: center; gap: .5rem; padding: .9rem 1.5rem; border-radius: 8px; font-weight: 600; font-size: .95rem; text-decoration: none; transition: transform .2s ease, background .2s ease, box-shadow .2s ease; line-height: 1; }
+.aar3-btn-primary { background: var(--aar3-accent); color: #fff; box-shadow: 0 14px 34px -12px rgba(14,165,233,.7); }
+.aar3-btn-primary:hover { background: var(--aar3-accent-deep); color: #fff; transform: translateY(-2px); }
+.aar3-btn-ghost { color: #fff; border: 1px solid rgba(255,255,255,.32); background: rgba(255,255,255,.05); }
+.aar3-btn-ghost:hover { background: rgba(255,255,255,.12); color: #fff; transform: translateY(-2px); }
+
+.aar3-hero-chips { position: absolute; right: 1.5rem; top: 50%; transform: translateY(-50%); display: grid; gap: .9rem; z-index: 2; max-width: 280px; }
+.aar3-hero-chip { background: rgba(255,255,255,.08); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border: 1px solid rgba(255,255,255,.14); padding: 1rem 1.1rem; border-radius: 14px; color: #fff; box-shadow: 0 18px 50px -20px rgba(0,0,0,.6); }
+.aar3-hero-chip-num { font-size: 1.85rem; line-height: 1; font-weight: 700; color: var(--aar3-accent-2); margin-bottom: .35rem; letter-spacing: -.01em; }
+.aar3-hero-chip-label { font-size: .78rem; color: rgba(255,255,255,.78); line-height: 1.4; }
+.aar3-hero-chip-label strong { color: #fff; display: block; font-weight: 600; margin-bottom: .15rem; font-size: .82rem; }
+
+.aar3-trust { background: var(--aar3-primary); color: rgba(255,255,255,.85); border-bottom: 1px solid rgba(255,255,255,.06); padding: 1.1rem 0; }
+.aar3-trust-inner { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; display: flex; flex-wrap: wrap; gap: 2rem; align-items: center; justify-content: space-between; font-size: .82rem; }
+.aar3-trust-item { display: inline-flex; align-items: center; gap: .55rem; letter-spacing: .04em; }
+.aar3-trust-item svg { flex-shrink: 0; color: var(--aar3-accent-2); }
+.aar3-trust-item strong { color: #fff; font-weight: 600; }
+
+.aar3-body { background: var(--aar3-white); padding: 5rem 0 1rem; position: relative; }
+.aar3-body-inner { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; display: grid; grid-template-columns: 220px 1fr; gap: 4rem; align-items: start; }
+.aar3-rail { position: sticky; top: 6rem; align-self: start; }
+.aar3-rail-label { font-size: .68rem; letter-spacing: .2em; text-transform: uppercase; color: var(--aar3-text-mute); font-weight: 700; margin: 0 0 1rem; padding-left: .85rem; }
+.aar3-rail-list { list-style: none; padding: 0; margin: 0; border-left: 1px solid var(--aar3-line); }
+.aar3-rail-list li a { display: block; padding: .55rem .9rem .55rem 1rem; font-size: .9rem; color: var(--aar3-text-mute); text-decoration: none; border-left: 2px solid transparent; margin-left: -1px; transition: color .2s ease, border-color .2s ease; }
+.aar3-rail-list li a:hover { color: var(--aar3-primary); }
+.aar3-rail-list li a.is-active { color: var(--aar3-primary); border-left-color: var(--aar3-accent); font-weight: 600; }
+.aar3-rail-cta { margin-top: 1.4rem; padding: 1rem; background: var(--aar3-bg); border-radius: 10px; border: 1px solid var(--aar3-line); }
+.aar3-rail-cta p { margin: 0 0 .65rem; font-size: .8rem; color: var(--aar3-text); line-height: 1.45; }
+.aar3-rail-cta a { display: block; text-align: center; padding: .55rem .8rem; background: var(--aar3-primary); color: #fff; border-radius: 6px; text-decoration: none; font-size: .8rem; font-weight: 600; }
+.aar3-rail-cta a:hover { background: var(--aar3-accent-deep); color: #fff; }
+
+.aar3-main > section { scroll-margin-top: 90px; padding-bottom: 4.5rem; }
+.aar3-main h2 { font-size: clamp(1.7rem, 2.4vw, 2.2rem); color: var(--aar3-primary); letter-spacing: -.012em; margin: 0 0 .5rem; line-height: 1.18; font-weight: 600; }
+.aar3-main h2::before { content: ""; display: block; width: 32px; height: 2px; background: var(--aar3-accent); margin-bottom: 1.1rem; }
+.aar3-main .aar3-deck { color: var(--aar3-text-mute); font-size: 1.02rem; max-width: 64ch; margin: 0 0 2rem; line-height: 1.6; }
+.aar3-main p { margin: .9rem 0; }
+
+.aar3-lead p { font-size: 1.05rem; line-height: 1.7; color: var(--aar3-text); }
+.aar3-lead p:first-of-type { font-size: 1.18rem; color: var(--aar3-primary-2); }
+
+.aar3-biology { border-top: 1px solid var(--aar3-line); margin-top: 2rem; }
+.aar3-bio-row { display: grid; grid-template-columns: 70px 1fr auto; gap: 1.5rem; align-items: center; padding: 1.4rem 0; border-bottom: 1px solid var(--aar3-line); }
+.aar3-bio-num { font-family: "Outfit", system-ui, sans-serif; font-size: 1.6rem; font-weight: 600; color: var(--aar3-accent-deep); letter-spacing: -.02em; line-height: 1; }
+.aar3-bio-num small { display: block; font-size: .58rem; letter-spacing: .15em; text-transform: uppercase; color: var(--aar3-text-mute); margin-top: .35rem; font-weight: 600; }
+.aar3-bio-content h4 { margin: 0 0 .35rem; font-size: 1.1rem; color: var(--aar3-primary); font-weight: 600; }
+.aar3-bio-content p { margin: 0; font-size: .92rem; color: var(--aar3-text); line-height: 1.55; }
+.aar3-bio-stat { font-size: .78rem; color: var(--aar3-accent-deep); font-weight: 700; letter-spacing: .04em; padding: .4rem .8rem; border: 1px solid rgba(14,165,233,.3); border-radius: 999px; background: rgba(14,165,233,.06); white-space: nowrap; }
+
+.aar3-matcher { background: var(--aar3-bg); border: 1px solid var(--aar3-line); border-radius: 14px; padding: 1.75rem; margin-top: 1rem; }
+.aar3-matcher-head { display: flex; gap: 1rem; align-items: baseline; flex-wrap: wrap; margin-bottom: 1rem; }
+.aar3-matcher-head h3 { margin: 0; font-size: 1.05rem; color: var(--aar3-primary); font-weight: 600; }
+.aar3-matcher-head span { font-size: .82rem; color: var(--aar3-text-mute); }
+.aar3-chip-row { display: flex; flex-wrap: wrap; gap: .55rem; }
+.aar3-chip { display: inline-flex; align-items: center; gap: .35rem; padding: .55rem 1rem; border-radius: 999px; border: 1px solid var(--aar3-line); background: #fff; color: var(--aar3-primary); font-size: .85rem; font-weight: 500; cursor: pointer; transition: all .18s ease; font-family: inherit; }
+.aar3-chip:hover { border-color: var(--aar3-accent); color: var(--aar3-accent-deep); }
+.aar3-chip[aria-pressed="true"] { background: var(--aar3-primary); color: #fff; border-color: var(--aar3-primary); }
+.aar3-matcher-result { margin-top: 1.1rem; padding-top: 1.1rem; border-top: 1px dashed var(--aar3-line); font-size: .9rem; color: var(--aar3-text); min-height: 22px; }
+.aar3-matcher-result strong { color: var(--aar3-accent-deep); }
+
+.aar3-tx { margin-top: 1rem; }
+.aar3-tx-tabs { display: flex; gap: .25rem; flex-wrap: wrap; border-bottom: 1px solid var(--aar3-line); margin-bottom: 2rem; }
+.aar3-tx-tab { padding: .85rem 1.2rem; background: transparent; border: 0; color: var(--aar3-text-mute); font-weight: 500; font-size: .92rem; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; font-family: inherit; transition: color .18s ease, border-color .18s ease; }
+.aar3-tx-tab:hover { color: var(--aar3-primary); }
+.aar3-tx-tab[aria-selected="true"] { color: var(--aar3-primary); border-bottom-color: var(--aar3-accent); font-weight: 600; }
+.aar3-tx-panel { display: none; }
+.aar3-tx-panel.is-active { display: grid; grid-template-columns: 1.3fr 1fr; gap: 2.5rem; animation: aar3-fade .35s ease; }
+@keyframes aar3-fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+.aar3-tx-panel h3 { margin: 0 0 .25rem; font-size: 1.55rem; color: var(--aar3-primary); letter-spacing: -.01em; line-height: 1.2; font-weight: 600; }
+.aar3-tx-panel .aar3-tx-sub { font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; color: var(--aar3-accent-deep); font-weight: 700; margin: 0 0 1rem; }
+.aar3-tx-panel p { margin: .8rem 0; font-size: .96rem; line-height: 1.65; color: var(--aar3-text); }
+.aar3-tx-panel ul { padding-left: 0; list-style: none; margin: .9rem 0; }
+.aar3-tx-panel ul li { position: relative; padding: .35rem 0 .35rem 1.4rem; font-size: .92rem; color: var(--aar3-text); }
+.aar3-tx-panel ul li::before { content: ""; position: absolute; left: 0; top: .85em; width: 6px; height: 6px; background: var(--aar3-accent); border-radius: 50%; }
+.aar3-tx-aside { background: var(--aar3-primary); color: #fff; padding: 1.6rem; border-radius: 12px; align-self: start; position: relative; overflow: hidden; }
+.aar3-tx-aside::before { content: ""; position: absolute; inset: -50% -20% auto auto; width: 60%; height: 100%; background: radial-gradient(closest-side, rgba(56,189,248,.18), transparent 70%); pointer-events: none; }
+.aar3-tx-aside-eyebrow { font-size: .68rem; letter-spacing: .18em; text-transform: uppercase; color: var(--aar3-accent-2); font-weight: 700; margin-bottom: .9rem; }
+.aar3-tx-aside dl { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem .8rem; margin: 0; position: relative; }
+.aar3-tx-aside dt { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.55); font-weight: 600; margin-bottom: .25rem; }
+.aar3-tx-aside dd { margin: 0; color: #fff; font-size: 1rem; font-weight: 600; letter-spacing: -.005em; }
+.aar3-tx-tag-row { margin-top: 1.2rem; padding-top: 1.1rem; border-top: 1px solid rgba(255,255,255,.12); display: flex; flex-wrap: wrap; gap: .35rem; position: relative; }
+.aar3-tx-tag { display: inline-block; padding: .3rem .7rem; font-size: .68rem; letter-spacing: .06em; text-transform: uppercase; background: rgba(56,189,248,.12); color: var(--aar3-accent-2); border-radius: 999px; font-weight: 600; }
+
+.aar3-compare-strip { display: grid; grid-auto-flow: column; grid-auto-columns: 260px; gap: 1rem; overflow-x: auto; padding: .25rem .25rem 1.5rem; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; margin: 1rem -.25rem 0; }
+.aar3-compare-strip::-webkit-scrollbar { height: 6px; }
+.aar3-compare-strip::-webkit-scrollbar-track { background: var(--aar3-line-2); border-radius: 3px; }
+.aar3-compare-strip::-webkit-scrollbar-thumb { background: rgba(14,165,233,.5); border-radius: 3px; }
+.aar3-compare-card { scroll-snap-align: start; background: #fff; border: 1px solid var(--aar3-line); border-radius: 12px; padding: 1.4rem; display: flex; flex-direction: column; gap: .5rem; transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; min-height: 240px; }
+.aar3-compare-card:hover { transform: translateY(-3px); border-color: rgba(14,165,233,.45); box-shadow: 0 22px 50px -28px rgba(14,165,233,.35); }
+.aar3-compare-card-eyebrow { font-size: .68rem; letter-spacing: .14em; text-transform: uppercase; color: var(--aar3-accent-deep); font-weight: 700; }
+.aar3-compare-card h4 { margin: .2rem 0 .4rem; font-size: 1.1rem; color: var(--aar3-primary); font-weight: 600; line-height: 1.25; }
+.aar3-compare-card-mech { font-size: .85rem; color: var(--aar3-text); line-height: 1.5; flex: 1; }
+.aar3-compare-card-foot { display: flex; justify-content: space-between; align-items: end; padding-top: .85rem; margin-top: .35rem; border-top: 1px solid var(--aar3-line); }
+.aar3-compare-card-dur { font-size: 1.4rem; font-weight: 700; color: var(--aar3-accent-deep); line-height: 1; letter-spacing: -.01em; }
+.aar3-compare-card-dur small { display: block; font-size: .6rem; letter-spacing: .14em; text-transform: uppercase; color: var(--aar3-text-mute); font-weight: 600; margin-top: .35rem; }
+.aar3-compare-card-sessions { text-align: right; }
+.aar3-compare-card-sessions span { font-size: .92rem; color: var(--aar3-primary); font-weight: 600; display: block; }
+.aar3-compare-card-sessions small { font-size: .62rem; letter-spacing: .12em; text-transform: uppercase; color: var(--aar3-text-mute); font-weight: 600; }
+
+.aar3-process { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; margin-top: 1rem; counter-reset: aar3step; position: relative; }
+.aar3-process::before { content: ""; position: absolute; top: 22px; left: 6%; right: 6%; height: 2px; background: linear-gradient(90deg, var(--aar3-accent), var(--aar3-line) 95%); z-index: 0; }
+.aar3-step { position: relative; padding: 0 .6rem; text-align: left; z-index: 1; }
+.aar3-step-num { width: 44px; height: 44px; border-radius: 50%; background: #fff; border: 2px solid var(--aar3-accent); color: var(--aar3-accent-deep); font-weight: 700; font-size: 1rem; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; box-shadow: 0 4px 14px -4px rgba(14,165,233,.35); }
+.aar3-step h4 { margin: 0 0 .35rem; font-size: .98rem; color: var(--aar3-primary); font-weight: 600; line-height: 1.3; }
+.aar3-step p { margin: 0; font-size: .82rem; color: var(--aar3-text-mute); line-height: 1.5; }
+
+.aar3-split { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1rem; }
+.aar3-split-card { background: var(--aar3-bg); border: 1px solid var(--aar3-line); border-radius: 12px; padding: 1.75rem; }
+.aar3-split-card h4 { margin: 0 0 .55rem; font-size: 1.08rem; color: var(--aar3-primary); font-weight: 600; }
+.aar3-split-card h4 + p { font-size: .92rem; color: var(--aar3-text); line-height: 1.6; margin: 0 0 .9rem; }
+.aar3-split-card ul { padding-left: 0; margin: 0; list-style: none; }
+.aar3-split-card ul li { position: relative; padding: .25rem 0 .25rem 1.4rem; font-size: .88rem; color: var(--aar3-text); }
+.aar3-split-card ul li::before { content: "✓"; position: absolute; left: 0; color: var(--aar3-accent); font-weight: 700; }
+.aar3-split-card.is-warn ul li::before { content: "·"; color: var(--aar3-text-mute); font-size: 1.4rem; line-height: 1; top: 0; }
+
+.aar3-faq { border-top: 1px solid var(--aar3-line); margin-top: 1rem; }
+.aar3-faq details { border-bottom: 1px solid var(--aar3-line); padding: 1.1rem 0; }
+.aar3-faq summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 1rem; font-weight: 600; color: var(--aar3-primary); font-size: 1rem; }
+.aar3-faq summary::-webkit-details-marker { display: none; }
+.aar3-faq summary::after { content: "+"; font-size: 1.5rem; color: var(--aar3-accent-deep); font-weight: 400; line-height: 1; transition: transform .2s ease; flex-shrink: 0; }
+.aar3-faq details[open] summary::after { content: "−"; transform: rotate(0deg); }
+.aar3-faq details p { margin: .85rem 0 .2rem; font-size: .94rem; color: var(--aar3-text); line-height: 1.65; max-width: 70ch; }
+
+.aar3-book { background: var(--aar3-primary); color: #fff; padding: 5rem 0; position: relative; overflow: hidden; margin-top: 2rem; }
+.aar3-book::before { content: ""; position: absolute; top: -30%; left: -10%; width: 50%; height: 160%; background: radial-gradient(closest-side, rgba(56,189,248,.18), transparent 70%); pointer-events: none; }
+.aar3-book::after { content: ""; position: absolute; bottom: -30%; right: -10%; width: 55%; height: 160%; background: radial-gradient(closest-side, rgba(14,165,233,.12), transparent 70%); pointer-events: none; }
+.aar3-book-inner { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 3.5rem; align-items: center; position: relative; z-index: 1; }
+.aar3-book h2 { color: #fff; font-size: clamp(1.9rem, 3vw, 2.6rem); margin: 0 0 1rem; letter-spacing: -.01em; line-height: 1.15; font-weight: 600; }
+.aar3-book h2::before { content: ""; display: block; width: 32px; height: 2px; background: var(--aar3-accent-2); margin-bottom: 1rem; }
+.aar3-book p { color: rgba(255,255,255,.82); font-size: 1.02rem; line-height: 1.6; max-width: 50ch; margin: 0 0 1.5rem; }
+.aar3-book-actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: .8rem; }
+.aar3-book-card { background: rgba(255,255,255,.05); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,.12); border-radius: 14px; padding: 1.75rem; }
+.aar3-book-card h4 { margin: 0 0 1rem; font-size: .82rem; letter-spacing: .14em; text-transform: uppercase; color: var(--aar3-accent-2); font-weight: 700; }
+.aar3-book-card-row { display: flex; gap: 1rem; padding: .75rem 0; border-top: 1px solid rgba(255,255,255,.08); align-items: center; }
+.aar3-book-card-row:first-of-type { border-top: 0; padding-top: 0; }
+.aar3-book-card-row svg { color: var(--aar3-accent-2); flex-shrink: 0; }
+.aar3-book-card-row-label { font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.55); font-weight: 600; margin-bottom: .15rem; }
+.aar3-book-card-row-val { font-size: .98rem; color: #fff; font-weight: 600; }
+.aar3-book-card-row-val a { color: #fff; text-decoration: none; }
+.aar3-book-card-row-val a:hover { color: var(--aar3-accent-2); }
+
+@media (max-width: 980px) {
+    .aar3-hero { min-height: auto; padding: 5rem 0 4rem; }
+    .aar3-hero-chips { position: static; transform: none; max-width: none; grid-template-columns: repeat(3, 1fr); margin-top: 2.25rem; }
+    .aar3-hero-chip-num { font-size: 1.4rem; }
+    .aar3-body-inner { grid-template-columns: 1fr; gap: 0; }
+    .aar3-rail { display: none; }
+    .aar3-tx-panel.is-active { grid-template-columns: 1fr; gap: 1.5rem; }
+    .aar3-tx-aside { order: -1; }
+    .aar3-process { grid-template-columns: 1fr; gap: 1.25rem; }
+    .aar3-process::before { display: none; }
+    .aar3-split { grid-template-columns: 1fr; }
+    .aar3-book-inner { grid-template-columns: 1fr; gap: 2rem; }
+    .aar3-bio-row { grid-template-columns: 60px 1fr; gap: 1rem; }
+    .aar3-bio-stat { grid-column: 2; justify-self: start; margin-top: .35rem; }
+}
+@media (max-width: 640px) {
+    .aar3-hero-chips { grid-template-columns: 1fr; }
+    .aar3-hero h1 { font-size: 2.1rem; }
+    .aar3-tx-tabs { gap: 0; overflow-x: auto; flex-wrap: nowrap; -webkit-overflow-scrolling: touch; }
+    .aar3-tx-tab { white-space: nowrap; padding: .75rem .9rem; font-size: .85rem; }
+    .aar3-trust-inner { gap: 1rem; font-size: .75rem; }
+    .aar3-main h2 { font-size: 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="rma-preview-bar">
+    <div><strong>Anti-Ageing &amp; Rejuvenation V3</strong> &middot; Restart Medical preview</div>
+    <small>Standalone HTML &middot; not WordPress</small>
+</div>
+
+<main class="aar3">
+
+<section class="aar3-hero" aria-labelledby="aar3-hero-title">
+    <div class="aar3-hero-inner">
+        <span class="aar3-hero-eyebrow">Anti-Ageing &middot; Regenerative Aesthetics</span>
+        <h1 id="aar3-hero-title">Regenerative aesthetics, designed around <em>skin biology</em>.</h1>
+        <p class="aar3-hero-deck">Ageing skin is a biological process &mdash; declining collagen, elastin and hyaluronic acid. We work with that biology, not against it. Layered protocols. Conservative dosing. Natural-looking outcomes.</p>
+        <div class="aar3-hero-actions">
+            <a class="aar3-btn aar3-btn-primary" href="#aar3-book">Book a Consultation &rarr;</a>
+            <a class="aar3-btn aar3-btn-ghost" href="tel:07506689894">Call 07506&nbsp;689894</a>
+        </div>
+    </div>
+    <aside class="aar3-hero-chips" aria-label="Treatment summary">
+        <div class="aar3-hero-chip">
+            <div class="aar3-hero-chip-num">~1%</div>
+            <div class="aar3-hero-chip-label"><strong>Annual collagen loss</strong>From the mid-twenties</div>
+        </div>
+        <div class="aar3-hero-chip">
+            <div class="aar3-hero-chip-num">6</div>
+            <div class="aar3-hero-chip-label"><strong>Treatment pillars</strong>Layered, not one-shot</div>
+        </div>
+        <div class="aar3-hero-chip">
+            <div class="aar3-hero-chip-num">2</div>
+            <div class="aar3-hero-chip-label"><strong>Clinics</strong>Barnsley &amp; London</div>
+        </div>
+    </aside>
+</section>
+
+<section class="aar3-trust" aria-label="Clinic credentials">
+    <div class="aar3-trust-inner">
+        <span class="aar3-trust-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s-8-4.5-8-12V5l8-3 8 3v5c0 7.5-8 12-8 12z"/></svg>
+            <strong>Medically led</strong> &middot; Alan Apolakiatis RN
+        </span>
+        <span class="aar3-trust-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4 12 14.01l-3-3"/></svg>
+            <strong>CQC-aligned</strong> &middot; protocols &amp; consent
+        </span>
+        <span class="aar3-trust-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <strong>Layered protocols</strong> &middot; over 4&ndash;8 weeks
+        </span>
+        <span class="aar3-trust-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <strong>Barnsley &amp; London</strong>
+        </span>
+    </div>
+</section>
+
+<div class="aar3-body">
+    <div class="aar3-body-inner">
+
+        <aside class="aar3-rail" aria-label="On this page">
+            <p class="aar3-rail-label">On This Page</p>
+            <ul class="aar3-rail-list">
+                <li><a href="#aar3-overview" data-rail>Overview</a></li>
+                <li><a href="#aar3-biology" data-rail>Skin Biology</a></li>
+                <li><a href="#aar3-match" data-rail>Concern Matcher</a></li>
+                <li><a href="#aar3-treatments" data-rail>Treatments</a></li>
+                <li><a href="#aar3-compare" data-rail>Compare</a></li>
+                <li><a href="#aar3-process" data-rail>The Process</a></li>
+                <li><a href="#aar3-safety" data-rail>Safety &amp; Aftercare</a></li>
+                <li><a href="#aar3-faq" data-rail>FAQ</a></li>
+                <li><a href="#aar3-book" data-rail>Book</a></li>
+            </ul>
+            <div class="aar3-rail-cta">
+                <p>Initial consultations are unhurried and never high-pressure.</p>
+                <a href="#aar3-book">Book Consultation &rarr;</a>
+            </div>
+        </aside>
+
+        <div class="aar3-main">
+
+            <section id="aar3-overview" class="aar3-lead">
+                <h2>Anti-Ageing &amp; Rejuvenation Treatments</h2>
+                <p class="aar3-deck">Regenerative aesthetics designed around skin biology &mdash; medically led, evidence-based, and tailored to natural-looking outcomes.</p>
+                <p>Ageing skin is not simply a cosmetic concern &mdash; it is a biological process driven by declining collagen, elastin, and hyaluronic acid production. Over time, skin gradually loses firmness, hydration, elasticity, and structural support, leading to fine lines, laxity, dullness, and a fatigued appearance.</p>
+                <p>At <strong>Restart Medical &amp; Aesthetics Clinic</strong>, our focus is not on overfilling or creating artificial results. Instead, we use regenerative aesthetic treatments that work with your skin&rsquo;s natural repair systems to stimulate collagen production, improve skin quality, and restore healthier-looking skin over time.</p>
+            </section>
+
+            <section id="aar3-biology">
+                <h2>Understanding Skin Ageing</h2>
+                <p class="aar3-deck">Visible ageing is mainly influenced by three biological changes. Effective plans usually combine several complementary approaches rather than relying on a single procedure.</p>
+                <div class="aar3-biology">
+                    <div class="aar3-bio-row">
+                        <div class="aar3-bio-num">01<small>Driver</small></div>
+                        <div class="aar3-bio-content">
+                            <h4>Collagen &amp; Elastin Decline</h4>
+                            <p>From the mid-twenties onward, collagen production steadily decreases. Elastin &mdash; responsible for skin recoil and flexibility &mdash; also weakens over time, leading to sagging, thinning skin and reduced firmness.</p>
+                        </div>
+                        <div class="aar3-bio-stat">~1% / year from age 25</div>
+                    </div>
+                    <div class="aar3-bio-row">
+                        <div class="aar3-bio-num">02<small>Driver</small></div>
+                        <div class="aar3-bio-content">
+                            <h4>Reduced Skin Hydration</h4>
+                            <p>Natural hyaluronic acid levels decrease with age, causing dehydration, dullness, and increased visibility of fine lines &mdash; even before they're etched in.</p>
+                        </div>
+                        <div class="aar3-bio-stat">~50% drop by age 50</div>
+                    </div>
+                    <div class="aar3-bio-row">
+                        <div class="aar3-bio-num">03<small>Driver</small></div>
+                        <div class="aar3-bio-content">
+                            <h4>Repetitive Facial Movement</h4>
+                            <p>Years of facial expression eventually carve deeper static lines around the forehead, eyes, and mouth. Skin's ability to recover from each fold reduces with age.</p>
+                        </div>
+                        <div class="aar3-bio-stat">Glabella &middot; crow's feet</div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="aar3-match">
+                <h2>Our Approach to Treatment</h2>
+                <p class="aar3-deck">Every treatment plan is designed around safety, precision and long-term skin health. Tell us what you're noticing &mdash; we'll show which regenerative tools are most often used for it.</p>
+                <div class="aar3-matcher">
+                    <div class="aar3-matcher-head">
+                        <h3>What concerns you most?</h3>
+                        <span>Tap any concern to see treatments commonly used for it</span>
+                    </div>
+                    <div class="aar3-chip-row" role="group" aria-label="Skin concerns">
+                        <button type="button" class="aar3-chip" data-concern="laxity" aria-pressed="false">Skin laxity</button>
+                        <button type="button" class="aar3-chip" data-concern="hydration" aria-pressed="false">Dryness &amp; dullness</button>
+                        <button type="button" class="aar3-chip" data-concern="lines" aria-pressed="false">Fine &amp; expression lines</button>
+                        <button type="button" class="aar3-chip" data-concern="undereye" aria-pressed="false">Tired-looking eyes</button>
+                        <button type="button" class="aar3-chip" data-concern="texture" aria-pressed="false">Texture &amp; crepiness</button>
+                        <button type="button" class="aar3-chip" data-concern="glow" aria-pressed="false">Glow &amp; tone</button>
+                    </div>
+                    <div class="aar3-matcher-result" id="aar3-matcher-result" aria-live="polite">Choose a concern above &mdash; or scroll to <a href="#aar3-treatments">explore all treatments</a>.</div>
+                </div>
+            </section>
+
+            <section id="aar3-treatments">
+                <h2>Our Anti-Ageing Treatments</h2>
+                <p class="aar3-deck">Six pillars of regenerative aesthetics. Switch between them to see mechanism, areas, sessions and timeline at a glance.</p>
+                <div class="aar3-tx">
+                    <div class="aar3-tx-tabs" role="tablist" aria-label="Treatment options">
+                        <button class="aar3-tx-tab" role="tab" aria-selected="true" data-tab="anti-wrinkle">Anti-Wrinkle</button>
+                        <button class="aar3-tx-tab" role="tab" aria-selected="false" data-tab="profhilo">Profhilo&reg;</button>
+                        <button class="aar3-tx-tab" role="tab" aria-selected="false" data-tab="poly">Polynucleotides</button>
+                        <button class="aar3-tx-tab" role="tab" aria-selected="false" data-tab="prp">PRP</button>
+                        <button class="aar3-tx-tab" role="tab" aria-selected="false" data-tab="boosters">Skin Boosters</button>
+                        <button class="aar3-tx-tab" role="tab" aria-selected="false" data-tab="meso">Mesotherapy</button>
+                    </div>
+
+                    <article class="aar3-tx-panel is-active" data-panel="anti-wrinkle" role="tabpanel">
+                        <div class="aar3-tx-body">
+                            <p class="aar3-tx-sub">Botulinum Toxin Type A</p>
+                            <h3>Anti-Wrinkle Injections</h3>
+                            <p>Anti-wrinkle injections temporarily relax targeted facial muscles to soften expression lines while preserving natural movement. Our approach prioritises subtle enhancement &mdash; never an over-treated appearance.</p>
+                            <strong style="color:var(--aar3-primary);font-size:.85rem;letter-spacing:.04em;">Common treatment areas</strong>
+                            <ul>
+                                <li>Forehead lines, frown lines, crow's feet</li>
+                                <li>Jawline slimming &amp; bruxism support</li>
+                                <li>Neck banding (Nefertiti lift)</li>
+                                <li>Lip lines &amp; perioral softening</li>
+                            </ul>
+                        </div>
+                        <aside class="aar3-tx-aside">
+                            <div class="aar3-tx-aside-eyebrow">At a glance</div>
+                            <dl>
+                                <div><dt>Onset</dt><dd>3&ndash;5 days</dd></div>
+                                <div><dt>Peak effect</dt><dd>~2 weeks</dd></div>
+                                <div><dt>Sessions</dt><dd>1</dd></div>
+                                <div><dt>Duration</dt><dd>3&ndash;4 months</dd></div>
+                            </dl>
+                            <div class="aar3-tx-tag-row">
+                                <span class="aar3-tx-tag">Lines</span>
+                                <span class="aar3-tx-tag">Expression</span>
+                            </div>
+                        </aside>
+                    </article>
+
+                    <article class="aar3-tx-panel" data-panel="profhilo" role="tabpanel">
+                        <div class="aar3-tx-body">
+                            <p class="aar3-tx-sub">Hybrid HA Bio-Remodelling</p>
+                            <h3>Profhilo&reg; Skin Bio-Remodelling</h3>
+                            <p>Profhilo is an injectable hyaluronic acid treatment designed to improve skin quality and stimulate collagen and elastin production. Unlike traditional fillers, Profhilo spreads through the tissue to hydrate and remodel the skin rather than create volume.</p>
+                            <strong style="color:var(--aar3-primary);font-size:.85rem;letter-spacing:.04em;">Ideal for</strong>
+                            <ul>
+                                <li>Skin laxity &amp; loss of firmness</li>
+                                <li>Dehydration &amp; dullness</li>
+                                <li>Fine lines &amp; texture concerns</li>
+                                <li>Face, neck, d&eacute;collet&eacute; &amp; hands</li>
+                            </ul>
+                        </div>
+                        <aside class="aar3-tx-aside">
+                            <div class="aar3-tx-aside-eyebrow">At a glance</div>
+                            <dl>
+                                <div><dt>Sessions</dt><dd>2 sessions</dd></div>
+                                <div><dt>Spacing</dt><dd>4 weeks</dd></div>
+                                <div><dt>Duration</dt><dd>6&ndash;9 months</dd></div>
+                                <div><dt>Maintenance</dt><dd>6&ndash;9 mo</dd></div>
+                            </dl>
+                            <div class="aar3-tx-tag-row">
+                                <span class="aar3-tx-tag">Laxity</span>
+                                <span class="aar3-tx-tag">Hydration</span>
+                                <span class="aar3-tx-tag">Glow</span>
+                            </div>
+                        </aside>
+                    </article>
+
+                    <article class="aar3-tx-panel" data-panel="poly" role="tabpanel">
+                        <div class="aar3-tx-body">
+                            <p class="aar3-tx-sub">Salmon-Derived DNA Fragments</p>
+                            <h3>Polynucleotide Treatments</h3>
+                            <p>Polynucleotides are regenerative injectables that support tissue repair and collagen stimulation at a cellular level. They are particularly effective for delicate or damaged skin areas, with results developing gradually as collagen production increases naturally over time.</p>
+                            <strong style="color:var(--aar3-primary);font-size:.85rem;letter-spacing:.04em;">Common treatment areas</strong>
+                            <ul>
+                                <li>Under-eye rejuvenation (tear troughs)</li>
+                                <li>Neck rejuvenation</li>
+                                <li>Sun-damaged or crepey skin</li>
+                                <li>Fine texture concerns</li>
+                            </ul>
+                        </div>
+                        <aside class="aar3-tx-aside">
+                            <div class="aar3-tx-aside-eyebrow">At a glance</div>
+                            <dl>
+                                <div><dt>Sessions</dt><dd>3 sessions</dd></div>
+                                <div><dt>Spacing</dt><dd>2&ndash;3 weeks</dd></div>
+                                <div><dt>Duration</dt><dd>6&ndash;12 months</dd></div>
+                                <div><dt>Layering</dt><dd>Pairs with PRP</dd></div>
+                            </dl>
+                            <div class="aar3-tx-tag-row">
+                                <span class="aar3-tx-tag">Under-eye</span>
+                                <span class="aar3-tx-tag">Texture</span>
+                                <span class="aar3-tx-tag">Repair</span>
+                            </div>
+                        </aside>
+                    </article>
+
+                    <article class="aar3-tx-panel" data-panel="prp" role="tabpanel">
+                        <div class="aar3-tx-body">
+                            <p class="aar3-tx-sub">Autologous Growth Factors</p>
+                            <h3>Platelet-Rich Plasma (PRP)</h3>
+                            <p>PRP therapy uses concentrated platelets from your own blood to stimulate natural skin regeneration. After a small blood sample is taken, platelet-rich plasma is isolated and reintroduced into the skin using microinjections &mdash; drug-free and naturally biocompatible.</p>
+                            <strong style="color:var(--aar3-primary);font-size:.85rem;letter-spacing:.04em;">Helps improve</strong>
+                            <ul>
+                                <li>Skin texture &amp; fine lines</li>
+                                <li>Dullness &amp; overall skin quality</li>
+                                <li>Acne scarring</li>
+                                <li>Hair restoration support</li>
+                            </ul>
+                        </div>
+                        <aside class="aar3-tx-aside">
+                            <div class="aar3-tx-aside-eyebrow">At a glance</div>
+                            <dl>
+                                <div><dt>Sessions</dt><dd>3 sessions</dd></div>
+                                <div><dt>Spacing</dt><dd>4&ndash;6 weeks</dd></div>
+                                <div><dt>Duration</dt><dd>9&ndash;12 months</dd></div>
+                                <div><dt>Source</dt><dd>Autologous</dd></div>
+                            </dl>
+                            <div class="aar3-tx-tag-row">
+                                <span class="aar3-tx-tag">Glow</span>
+                                <span class="aar3-tx-tag">Texture</span>
+                                <span class="aar3-tx-tag">Drug-free</span>
+                            </div>
+                        </aside>
+                    </article>
+
+                    <article class="aar3-tx-panel" data-panel="boosters" role="tabpanel">
+                        <div class="aar3-tx-body">
+                            <p class="aar3-tx-sub">Sunekos &middot; Jalupro &middot; Restylane Vital</p>
+                            <h3>Skin Boosters</h3>
+                            <p>Skin boosters are lightweight injectable hyaluronic acid treatments that deeply hydrate the skin and improve overall texture and radiance. Unlike fillers, skin boosters focus on skin <em>quality</em> rather than volume enhancement.</p>
+                            <strong style="color:var(--aar3-primary);font-size:.85rem;letter-spacing:.04em;">Skin boosters help</strong>
+                            <ul>
+                                <li>Restore deep hydration</li>
+                                <li>Improve glow &amp; softness</li>
+                                <li>Smooth fine lines</li>
+                                <li>Refine overall skin texture</li>
+                            </ul>
+                        </div>
+                        <aside class="aar3-tx-aside">
+                            <div class="aar3-tx-aside-eyebrow">At a glance</div>
+                            <dl>
+                                <div><dt>Sessions</dt><dd>2&ndash;3</dd></div>
+                                <div><dt>Spacing</dt><dd>4 weeks</dd></div>
+                                <div><dt>Duration</dt><dd>4&ndash;6 months</dd></div>
+                                <div><dt>Volume?</dt><dd>None added</dd></div>
+                            </dl>
+                            <div class="aar3-tx-tag-row">
+                                <span class="aar3-tx-tag">Hydration</span>
+                                <span class="aar3-tx-tag">Glow</span>
+                            </div>
+                        </aside>
+                    </article>
+
+                    <article class="aar3-tx-panel" data-panel="meso" role="tabpanel">
+                        <div class="aar3-tx-body">
+                            <p class="aar3-tx-sub">Vitamins &middot; Antioxidants &middot; Peptides</p>
+                            <h3>Mesotherapy</h3>
+                            <p>Mesotherapy involves targeted microinjections of vitamins, antioxidants, amino acids and peptides into the skin. It is commonly used alongside regenerative treatments to support hydration, brightness, recovery and general skin health.</p>
+                            <strong style="color:var(--aar3-primary);font-size:.85rem;letter-spacing:.04em;">Used to support</strong>
+                            <ul>
+                                <li>Skin hydration &amp; brightness</li>
+                                <li>Faster recovery between sessions</li>
+                                <li>Overall skin tone &amp; vitality</li>
+                                <li>Layering with regenerative protocols</li>
+                            </ul>
+                        </div>
+                        <aside class="aar3-tx-aside">
+                            <div class="aar3-tx-aside-eyebrow">At a glance</div>
+                            <dl>
+                                <div><dt>Sessions</dt><dd>3&ndash;6</dd></div>
+                                <div><dt>Spacing</dt><dd>2&ndash;4 weeks</dd></div>
+                                <div><dt>Role</dt><dd>Adjunctive</dd></div>
+                                <div><dt>Pairs with</dt><dd>Profhilo / PRP</dd></div>
+                            </dl>
+                            <div class="aar3-tx-tag-row">
+                                <span class="aar3-tx-tag">Adjunctive</span>
+                                <span class="aar3-tx-tag">Recovery</span>
+                            </div>
+                        </aside>
+                    </article>
+                </div>
+            </section>
+
+            <section id="aar3-compare">
+                <h2>Treatment Overview</h2>
+                <p class="aar3-deck">A side-by-side view of how each treatment works and how long results typically last. Plans are usually layered &mdash; not chosen in isolation.</p>
+                <div class="aar3-compare-strip" tabindex="0" aria-label="Treatment comparison, scroll horizontally">
+                    <div class="aar3-compare-card">
+                        <div class="aar3-compare-card-eyebrow">Anti-Wrinkle</div>
+                        <h4>Muscle relaxation</h4>
+                        <p class="aar3-compare-card-mech">Targeted relaxation of expression muscles to soften dynamic lines.</p>
+                        <div class="aar3-compare-card-foot">
+                            <div class="aar3-compare-card-dur">3&ndash;4<small>Months</small></div>
+                            <div class="aar3-compare-card-sessions"><span>1</span><small>Session</small></div>
+                        </div>
+                    </div>
+                    <div class="aar3-compare-card">
+                        <div class="aar3-compare-card-eyebrow">Profhilo&reg;</div>
+                        <h4>Skin remodelling</h4>
+                        <p class="aar3-compare-card-mech">Hyaluronic acid bio-remodelling improves firmness, glow and hydration.</p>
+                        <div class="aar3-compare-card-foot">
+                            <div class="aar3-compare-card-dur">6&ndash;9<small>Months</small></div>
+                            <div class="aar3-compare-card-sessions"><span>2</span><small>Sessions</small></div>
+                        </div>
+                    </div>
+                    <div class="aar3-compare-card">
+                        <div class="aar3-compare-card-eyebrow">Polynucleotides</div>
+                        <h4>Cellular repair</h4>
+                        <p class="aar3-compare-card-mech">Stimulates fibroblasts and supports tissue repair at a cellular level.</p>
+                        <div class="aar3-compare-card-foot">
+                            <div class="aar3-compare-card-dur">6&ndash;12<small>Months</small></div>
+                            <div class="aar3-compare-card-sessions"><span>3</span><small>Sessions</small></div>
+                        </div>
+                    </div>
+                    <div class="aar3-compare-card">
+                        <div class="aar3-compare-card-eyebrow">PRP</div>
+                        <h4>Natural collagen</h4>
+                        <p class="aar3-compare-card-mech">Your own platelet-derived growth factors stimulate skin regeneration.</p>
+                        <div class="aar3-compare-card-foot">
+                            <div class="aar3-compare-card-dur">9&ndash;12<small>Months</small></div>
+                            <div class="aar3-compare-card-sessions"><span>3</span><small>Sessions</small></div>
+                        </div>
+                    </div>
+                    <div class="aar3-compare-card">
+                        <div class="aar3-compare-card-eyebrow">Skin Boosters</div>
+                        <h4>Deep hydration</h4>
+                        <p class="aar3-compare-card-mech">Light HA microinjections to restore hydration, glow and skin softness.</p>
+                        <div class="aar3-compare-card-foot">
+                            <div class="aar3-compare-card-dur">4&ndash;6<small>Months</small></div>
+                            <div class="aar3-compare-card-sessions"><span>2&ndash;3</span><small>Sessions</small></div>
+                        </div>
+                    </div>
+                    <div class="aar3-compare-card">
+                        <div class="aar3-compare-card-eyebrow">Mesotherapy</div>
+                        <h4>Adjunctive support</h4>
+                        <p class="aar3-compare-card-mech">Vitamin and peptide cocktail layered with regenerative protocols.</p>
+                        <div class="aar3-compare-card-foot">
+                            <div class="aar3-compare-card-dur">Ongoing<small>Layered</small></div>
+                            <div class="aar3-compare-card-sessions"><span>3&ndash;6</span><small>Sessions</small></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="aar3-process">
+                <h2>Your Consultation, Step by Step</h2>
+                <p class="aar3-deck">Initial consultations are medically led and designed to create a personalised treatment plan based on your skin, goals and suitability. There is never pressure to proceed on the day.</p>
+                <div class="aar3-process">
+                    <div class="aar3-step">
+                        <div class="aar3-step-num">1</div>
+                        <h4>History &amp; Assessment</h4>
+                        <p>Medical history, medications and any previous aesthetic treatments reviewed.</p>
+                    </div>
+                    <div class="aar3-step">
+                        <div class="aar3-step-num">2</div>
+                        <h4>Skin Analysis</h4>
+                        <p>Laxity, hydration, pigmentation and dynamic versus static lines assessed.</p>
+                    </div>
+                    <div class="aar3-step">
+                        <div class="aar3-step-num">3</div>
+                        <h4>Personalised Plan</h4>
+                        <p>Itemised treatment recommendations, sequencing and pricing &mdash; in writing.</p>
+                    </div>
+                    <div class="aar3-step">
+                        <div class="aar3-step-num">4</div>
+                        <h4>First Session</h4>
+                        <p>Treatment delivered or supervised by Alan Apolakiatis RN with clinical aftercare.</p>
+                    </div>
+                    <div class="aar3-step">
+                        <div class="aar3-step-num">5</div>
+                        <h4>Review &amp; Maintain</h4>
+                        <p>Two- and six-week reviews; maintenance every few months keeps results steady.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="aar3-safety">
+                <h2>Safety, Aftercare &amp; Long-Term Maintenance</h2>
+                <p class="aar3-deck">All treatments are performed using strict clinical hygiene and safety protocols. Aftercare guidance is provided in writing following every appointment.</p>
+                <div class="aar3-split">
+                    <div class="aar3-split-card is-warn">
+                        <h4>Temporary side effects</h4>
+                        <p>Most settle within a few days and are limited to the injection site:</p>
+                        <ul>
+                            <li>Mild redness &amp; tenderness</li>
+                            <li>Localised swelling</li>
+                            <li>Occasional bruising</li>
+                            <li>Small papules at injection points</li>
+                        </ul>
+                    </div>
+                    <div class="aar3-split-card">
+                        <h4>For 24&ndash;48 hours, avoid</h4>
+                        <p>Standard aftercare for most regenerative protocols:</p>
+                        <ul>
+                            <li>Excessive heat (sauna, sun)</li>
+                            <li>Alcohol</li>
+                            <li>Intense exercise</li>
+                            <li>Active skincare ingredients</li>
+                        </ul>
+                    </div>
+                    <div class="aar3-split-card">
+                        <h4>Best long-term results</h4>
+                        <p>Regenerative aesthetics work best when combined with:</p>
+                        <ul>
+                            <li>Consistent medical-grade skincare</li>
+                            <li>Daily sun protection</li>
+                            <li>Healthy lifestyle habits</li>
+                            <li>Regular maintenance reviews</li>
+                        </ul>
+                    </div>
+                    <div class="aar3-split-card">
+                        <h4>What we don't do</h4>
+                        <p>Honesty over upselling. We will not treat where it isn't clinically appropriate:</p>
+                        <ul>
+                            <li>Pregnancy or breastfeeding</li>
+                            <li>Active skin infection at site</li>
+                            <li>Conditions contraindicating the treatment</li>
+                            <li>Cases better suited to surgery or dermatology</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="aar3-faq">
+                <h2>Frequently Asked Questions</h2>
+                <p class="aar3-deck">Quick answers to common questions about anti-ageing and regenerative treatments.</p>
+                <div class="aar3-faq">
+                    <details>
+                        <summary>What is the difference between filler and regenerative treatments?</summary>
+                        <p>Fillers restore structure and volume, while regenerative treatments improve skin <em>quality</em> by stimulating collagen and tissue repair. They sit alongside each other in a treatment plan rather than being interchangeable.</p>
+                    </details>
+                    <details>
+                        <summary>How long do results take?</summary>
+                        <p>Anti-wrinkle injections work relatively quickly &mdash; visible from around day five with peak effect at two weeks. Regenerative treatments improve gradually over several weeks as collagen remodelling develops.</p>
+                    </details>
+                    <details>
+                        <summary>Will the results look natural?</summary>
+                        <p>Yes. Our treatments are designed to create subtle, refreshed, natural-looking improvements. We deliberately avoid the over-treated, frozen or overfilled look.</p>
+                    </details>
+                    <details>
+                        <summary>Is PRP safe?</summary>
+                        <p>PRP uses your own blood, making it naturally compatible and widely considered low-risk when performed clinically. It is drug-free and hypoallergenic by definition.</p>
+                    </details>
+                    <details>
+                        <summary>Can treatments be combined?</summary>
+                        <p>Yes. Many patients combine anti-wrinkle injections with regenerative treatments such as Profhilo, polynucleotides or PRP for more comprehensive rejuvenation.</p>
+                    </details>
+                    <details>
+                        <summary>Will I need maintenance treatments?</summary>
+                        <p>Maintenance treatments help preserve results, but stopping treatment will not accelerate the ageing process beyond its natural course. Your skin returns to its untreated trajectory &mdash; it doesn't decline faster than it would have otherwise.</p>
+                    </details>
+                </div>
+            </section>
+
+        </div>
+    </div>
+</div>
+
+<section id="aar3-book" class="aar3-book">
+    <div class="aar3-book-inner">
+        <div>
+            <h2>Book a Consultation</h2>
+            <p>If you are considering anti-ageing or regenerative aesthetic treatments, book a consultation with Restart Medical &amp; Aesthetics Clinic. Our consultations are informative, clinically focused and designed around realistic, evidence-based outcomes.</p>
+            <div class="aar3-book-actions">
+                <a class="aar3-btn aar3-btn-primary" href="#aar3-book">Book Online &rarr;</a>
+                <a class="aar3-btn aar3-btn-ghost" href="tel:07506689894">Call 07506&nbsp;689894</a>
+            </div>
+        </div>
+        <div class="aar3-book-card">
+            <h4>Get in touch</h4>
+            <div class="aar3-book-card-row">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.33 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                <div>
+                    <div class="aar3-book-card-row-label">Phone</div>
+                    <div class="aar3-book-card-row-val"><a href="tel:07506689894">07506 689894</a></div>
+                </div>
+            </div>
+            <div class="aar3-book-card-row">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                <div>
+                    <div class="aar3-book-card-row-label">Email</div>
+                    <div class="aar3-book-card-row-val"><a href="mailto:info@restartmedical.co.uk">info@restartmedical.co.uk</a></div>
+                </div>
+            </div>
+            <div class="aar3-book-card-row">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                <div>
+                    <div class="aar3-book-card-row-label">Locations</div>
+                    <div class="aar3-book-card-row-val">Barnsley &amp; London</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+</main>
+
+<script>
+(function(){
+    var root = document.querySelector('.aar3');
+    if (!root) return;
+
+    var tabs = root.querySelectorAll('.aar3-tx-tab');
+    var panels = root.querySelectorAll('.aar3-tx-panel');
+    tabs.forEach(function(tab){
+        tab.addEventListener('click', function(){
+            var name = tab.getAttribute('data-tab');
+            tabs.forEach(function(t){ t.setAttribute('aria-selected', t === tab ? 'true' : 'false'); });
+            panels.forEach(function(p){
+                p.classList.toggle('is-active', p.getAttribute('data-panel') === name);
+            });
+        });
+    });
+
+    var matcherMap = {
+        laxity:    { label: 'Skin laxity', txs: ['Profhilo','Polynucleotides','PRP'], tab: 'profhilo' },
+        hydration: { label: 'Dryness &amp; dullness', txs: ['Profhilo','Skin Boosters','Mesotherapy'], tab: 'boosters' },
+        lines:     { label: 'Fine &amp; expression lines', txs: ['Anti-Wrinkle','Profhilo','PRP'], tab: 'anti-wrinkle' },
+        undereye:  { label: 'Tired-looking eyes', txs: ['Polynucleotides','Skin Boosters','PRP'], tab: 'poly' },
+        texture:   { label: 'Texture &amp; crepiness', txs: ['Polynucleotides','PRP','Mesotherapy'], tab: 'poly' },
+        glow:      { label: 'Glow &amp; tone', txs: ['Skin Boosters','PRP','Mesotherapy'], tab: 'boosters' }
+    };
+    var chips = root.querySelectorAll('.aar3-chip');
+    var result = root.querySelector('#aar3-matcher-result');
+    chips.forEach(function(chip){
+        chip.addEventListener('click', function(){
+            var key = chip.getAttribute('data-concern');
+            var entry = matcherMap[key];
+            if (!entry) return;
+            chips.forEach(function(c){ c.setAttribute('aria-pressed', c === chip ? 'true' : 'false'); });
+            result.innerHTML = 'For <strong>' + entry.label + '</strong>, the treatments most often used are <strong>' + entry.txs.join(', ') + '</strong>. ' +
+                '<a href="#aar3-treatments" data-jump-tab="' + entry.tab + '">Open the explorer &rarr;</a>';
+            var jump = result.querySelector('[data-jump-tab]');
+            if (jump) {
+                jump.addEventListener('click', function(){
+                    var tabBtn = root.querySelector('.aar3-tx-tab[data-tab="' + entry.tab + '"]');
+                    if (tabBtn) tabBtn.click();
+                });
+            }
+        });
+    });
+
+    if ('IntersectionObserver' in window) {
+        var railLinks = root.querySelectorAll('.aar3-rail-list a[data-rail]');
+        var sectionMap = {};
+        railLinks.forEach(function(a){
+            var id = a.getAttribute('href').slice(1);
+            var sec = root.querySelector('#' + id);
+            if (sec) sectionMap[id] = a;
+        });
+        var io = new IntersectionObserver(function(entries){
+            entries.forEach(function(e){
+                if (e.isIntersecting) {
+                    railLinks.forEach(function(l){ l.classList.remove('is-active'); });
+                    var link = sectionMap[e.target.id];
+                    if (link) link.classList.add('is-active');
+                }
+            });
+        }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+        Object.keys(sectionMap).forEach(function(id){
+            io.observe(root.querySelector('#' + id));
+        });
+    }
+})();
+</script>
+</body>
+</html>
